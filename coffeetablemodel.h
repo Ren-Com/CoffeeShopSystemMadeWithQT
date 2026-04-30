@@ -1,0 +1,32 @@
+#ifndef COFFEETABLEMODEL_H
+#define COFFEETABLEMODEL_H
+
+#include <QAbstractTableModel>
+#include <QVector>
+#include "coffee.h"
+
+class CoffeeTableModel : public QAbstractTableModel
+{
+    Q_OBJECT
+
+private:
+    QVector<Coffee> coffees;
+    QStringList headers;
+
+public:
+    explicit CoffeeTableModel(QObject *parent = nullptr);
+
+    // Override virtual methods dari QAbstractTableModel
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+    // Custom methods
+    void loadDataFromCSV(const QString &filePath);
+    void clear();
+    int getRowCount() const;
+    double calculateTotalRevenue() const;
+};
+
+#endif // COFFEETABLEMODEL_H
