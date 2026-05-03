@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <QtCharts/QHorizontalBarSeries>  // Tambahkan ini
 #include <QDir>
+#include <QMessageBox>
 
 // Include Charts
 #include <QtCharts/QChartView>
@@ -37,6 +38,9 @@ Dialog2::Dialog2(QWidget *parent) :
 
     // Setup chart
     setupChart();
+
+    // Atur edit triggers
+    ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
 
     // Load data
     loadData();
@@ -67,6 +71,10 @@ void Dialog2::onDataModified()
     qDebug() << "=== Data Modified - Updating revenue and chart ===";
     updateTotalRevenue();
     updateChart();
+
+    if (coffeeModel->saveToCSV()) {
+        qDebug() << "Changes auto-saved to CSV successfully";
+    }
 }
 
 void Dialog2::delayedUpdateChart()
@@ -202,7 +210,7 @@ void Dialog2::updateChart()
 
     currentChart->addSeries(series);
 
-    //Y untuk kategori (nama menu)
+    //Y untuk nama menu
     QBarCategoryAxis *axisY = new QBarCategoryAxis();
     axisY->append(categories);
     axisY->setTitleText("Coffee Menu");
@@ -210,7 +218,7 @@ void Dialog2::updateChart()
 
     //X untuk nilai revenue
     QValueAxis *axisX = new QValueAxis();
-    double maxRevenue = items.last().second;  // items.last() karena ascending
+    double maxRevenue = items.last().second;
     axisX->setRange(0, maxRevenue * 1.2);
     axisX->setTitleText("Revenue (RMB)");
     axisX->setLabelFormat("%.0f");

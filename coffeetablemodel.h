@@ -12,6 +12,8 @@ class CoffeeTableModel : public QAbstractTableModel
 private:
     QVector<Coffee> coffees;
     QStringList headers;
+    QString currentFilePath;
+    bool isEditableColumn(int column) const;
 
 public:
     explicit CoffeeTableModel(QObject *parent = nullptr);
@@ -28,9 +30,9 @@ public:
     bool validatePrice(double price) const;
     bool validateQuantity(int quantity) const;
 
-
     // Custom methods
     void loadDataFromCSV(const QString &filePath);
+    bool saveToCSV();
     void clear();
     int getRowCount() const;
     double calculateTotalRevenue() const;

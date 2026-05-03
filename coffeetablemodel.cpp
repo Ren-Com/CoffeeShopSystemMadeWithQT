@@ -1,6 +1,8 @@
 #include "coffeetablemodel.h"
 #include "csvreader.h"
 #include <QDebug>
+#include <QFile>
+#include <QTextStream>
 
 CoffeeTableModel::CoffeeTableModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -159,11 +161,56 @@ bool CoffeeTableModel::validateQuantity(int quantity) const
     return quantity >= 0; // Maksimal quantity 10000
 }
 
+static QString escapeCSV(const QString &field)
+{
+    if (field.contains(',') || field.contains('"') || field.contains('\n')) {
+        QString escaped = field;
+        escaped.replace('"', "\"\"");
+        return QString("\"%1\"").arg(escaped);
+    }
+    return field;
+}
+
+// Implementasi saveToCSV
+bool CoffeeTableModel::saveToCSV()
+{
+    if (currentFilePath.isEmpty()) {
+        qDebug() << "Error: No file path specified!";
+        return false;
+    }
+
+    QFile file(currentFilePath);
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Error: Cannot open file for writing:" << currentFilePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+
+    // Tulis header
+    out << "name,id,price,size,quantity_sold,explanation\n";
+
+    // Tulis semua data coffee yang sudah diedit
+    for (const Coffee &coffee : coffees) {
+        out << escapeCSV(coffee.getName()) << ","
+            << coffee.getId() << ","
+            << QString::number(coffee.getPrice(), 'f', 2) << ","
+            << coffee.getSize() << ","
+            << coffee.getQuantitySold() << ","
+            << escapeCSV(coffee.getExplanation()) << "\n";
+    }
+
+    file.close();
+    qDebug() << "Data successfully saved to:" << currentFilePath;
+    return true;
+}
 
 void CoffeeTableModel::loadDataFromCSV(const QString &filePath)
 {
     beginResetModel();
     coffees.clear();
+    currentFilePath = filePath;
 
     CSVReader reader(filePath);
 
@@ -192,6 +239,7 @@ void CoffeeTableModel::loadDataFromCSV(const QString &filePath)
     endResetModel();
     qDebug() << "Loaded" << coffees.size() << "coffee items";
 }
+
 
 void CoffeeTableModel::clear()
 {

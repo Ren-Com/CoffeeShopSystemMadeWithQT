@@ -1,22 +1,22 @@
 name,id,price,size,quantity_sold,explanation
-"Espresso",1,18.50,S,53,"Pure coffee brewed under high pressure, small and concentrated shot."
-"Double Espresso (Doppio)",2,22.00,S,142,"Two shots of espresso in one cup."
-"Ristretto",3,16.00,S,87,"A shorter, more concentrated espresso shot that is sweeter and bolder."
-"Lungo",4,20.50,S,213,"An espresso shot extracted with more water, resulting in a longer drink."
-"Americano",5,15.00,M,176,"Espresso diluted with hot water, similar to drip coffee but lighter."
-"Caffe Latte",6,28.00,M,98,"Espresso with steamed milk and a thin layer of foam; milk-heavy."
-"Cappuccino",7,28.00,M,245,"Balanced composition of espresso, steamed milk, and thick foam."
-"Flat White",8,32.00,M,119,"Similar to a latte but with a thinner, velvety microfoam."
-"Macchiato (Espresso Macchiato)",9,19.00,S,268,"Espresso ""stained"" with a small amount of milk foam."
-"Latte Macchiato",10,30.00,M,134,"Steamed milk ""stained"" with espresso."
-"Mocha",11,35.00,M,187,"A latte with chocolate powder or syrup added."
-"Affogato",12,30.00,S,62,"A scoop of vanilla ice cream ""drowned"" with a hot shot of espresso."
-"Cortado",13,26.00,S,229,"Espresso balanced with an equal amount of warm milk (1:1 ratio), popular in Spain."
-"Irish Coffee",14,45.00,L,153,"Black coffee with Irish whiskey, sugar, and topped with whipped cream."
-"Vienna Coffee",15,29.00,M,271,"Black coffee topped with whipped cream."
-"Tubruk (Indonesian-style coffee)",16,18.00,M,96,"Coarse coffee grounds brewed directly with hot water; the grounds are left in the cup."
-"Vietnamese Coffee",17,25.00,M,208,"Robusta coffee drip-brewed (using a phin) over sweetened condensed milk."
-"Dalgona Coffee",18,22.00,M,114,"Instant coffee, sugar, and hot water whipped into a thick foam, served over milk."
-"Frappe",19,35.00,L,257,"Instant coffee shaken vigorously with ice, milk, and sugar until frothy."
-"Cold Brew",20,38.00,L,183,"Coffee steeped in cold water for 12–24 hours, resulting in a smooth, low-acid flavor."
-"Matcha",21,15.00,L,56,"A sweet and mild green tea from Japan"
+Espresso,1,18.50,S,53,"Pure coffee brewed under high pressure, small and concentrated shot."
+Double Espresso (Doppio),2,22.00,S,142,Two shots of espresso in one cup.
+Ristretto,3,16.00,S,87,"A shorter, more concentrated espresso shot that is sweeter and bolder."
+Lungo,4,20.50,S,213,"An espresso shot extracted with more water, resulting in a longer drink."
+Americano,5,15.00,M,176,"Espresso diluted with hot water, similar to drip coffee but lighter."
+Caffe Latte,6,28.00,M,98,Espresso with steamed milk and a thin layer of foam; milk-heavy.
+Cappuccino,7,28.00,M,245,"Balanced composition of espresso, steamed milk, and thick foam."
+Flat White,8,32.00,M,119,"Similar to a latte but with a thinner, velvety microfoam."
+Macchiato (Espresso Macchiato),9,19.00,S,268,Espresso stained with a small amount of milk foam.
+Latte Macchiato,10,30.00,M,134,Steamed milk stained with espresso.
+Mocha,11,35.00,M,187,A latte with chocolate powder or syrup added.
+Affogato,12,30.00,S,62,A scoop of vanilla ice cream drowned with a hot shot of espresso.
+Cortado,13,26.00,S,229,"Espresso balanced with an equal amount of warm milk (1:1 ratio), popular in Spain."
+Irish Coffee,14,45.00,L,153,"Black coffee with Irish whiskey, sugar, and topped with whipped cream."
+Vienna Coffee,15,29.00,M,271,Black coffee topped with whipped cream.
+Tubruk (Indonesian-style coffee),16,18.00,M,96,Coarse coffee grounds brewed directly with hot water; the grounds are left in the cup.
+Vietnamese Coffee,17,25.00,M,208,Robusta coffee drip-brewed (using a phin) over sweetened condensed milk.
+Dalgona Coffee,18,22.00,M,114,"Instant coffee, sugar, and hot water whipped into a thick foam, served over milk."
+Frappe,19,35.00,L,300,"Instant coffee shaken vigorously with ice, milk, and sugar until frothy."
+Cold Brew,20,38.00,L,183,"Coffee steeped in cold water for 12–24 hours, resulting in a smooth, low-acid flavor."
+Matcha,21,15.00,L,56,A sweet and mild green tea from Japan
