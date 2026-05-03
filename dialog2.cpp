@@ -39,7 +39,7 @@ Dialog2::Dialog2(QWidget *parent) :
     // Setup chart
     setupChart();
 
-    // Atur edit triggers
+    // edit triggers
     ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
 
     // Load data
@@ -71,6 +71,7 @@ void Dialog2::onDataModified()
     qDebug() << "=== Data Modified - Updating revenue and chart ===";
     updateTotalRevenue();
     updateChart();
+    updateBestSellingCoffee();
 
     if (coffeeModel->saveToCSV()) {
         qDebug() << "Changes auto-saved to CSV successfully";
@@ -80,6 +81,7 @@ void Dialog2::onDataModified()
 void Dialog2::delayedUpdateChart()
 {
     updateChart();
+    updateBestSellingCoffee();
 }
 
 void Dialog2::setupChart()
@@ -125,14 +127,29 @@ void Dialog2::loadData()
     qDebug() << "Loaded" << coffeeModel->getRowCount() << "coffee items";
 
     ui->tableView->resizeColumnsToContents();
+
+    updateBestSellingCoffee();
 }
 
 void Dialog2::updateTotalRevenue()
 {
     double totalRevenue = coffeeModel->calculateTotalRevenue();
     QString formattedRevenue = QString("RMB %1").arg(totalRevenue, 0, 'f', 2);
-    ui->totalSalesRavenue->setText(QString("<html><head/><body><p><span style=' font-size:36pt; font-weight:700;'>%1</span></p></body></html>").arg(formattedRevenue));
+    ui->totalSalesRavenue->setText(QString("<html><head/><body><p><span style=' font-size:24pt; font-weight:700;'>%1</span></p></body></html>").arg(formattedRevenue));
     qDebug() << "Total Revenue:" << formattedRevenue;
+}
+
+void Dialog2::updateBestSellingCoffee()
+{
+    QString bestCoffee = coffeeModel->getBestSellingCoffeeName();
+
+    if (bestCoffee.isEmpty() || bestCoffee == "No Data") {
+        ui->bestSellingCoffee->setText(QString("<html><head/><body><p><span style=' font-size:24pt; font-weight:700;'>No Data</span></p></body></html>"));
+    } else {
+        ui->bestSellingCoffee->setText(QString("<html><head/><body><p><span style=' font-size:24pt; font-weight:700;'>%1</span></p></body></html>").arg(bestCoffee));
+    }
+
+    qDebug() << "Best Selling Coffee:" << bestCoffee;
 }
 
 void Dialog2::updateChart()
@@ -183,7 +200,6 @@ void Dialog2::updateChart()
     // Ambil top 8 (8 terbesar akan berada di akhir array)
     const int maxItems = 8;
     if (items.size() > maxItems) {
-        // Ambil 8 item TERAKHIR (yang terbesar)
         items = items.mid(items.size() - maxItems);
     }
 

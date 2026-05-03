@@ -38,6 +38,7 @@ private slots:
 private:
     void loadData();
     void updateTotalRevenue();
+    void updateBestSellingCoffee();
     void updateChart();
     void setupChart();
 

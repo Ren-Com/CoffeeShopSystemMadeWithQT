@@ -36,6 +36,7 @@ public:
     void clear();
     int getRowCount() const;
     double calculateTotalRevenue() const;
+    QString getBestSellingCoffeeName() const;
 
 signals:
     void dataModified();

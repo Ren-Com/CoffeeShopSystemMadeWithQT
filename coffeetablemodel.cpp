@@ -265,3 +265,25 @@ double CoffeeTableModel::calculateTotalRevenue() const
 
     return totalRevenue;
 }
+
+QString CoffeeTableModel::getBestSellingCoffeeName() const
+{
+    if (coffees.isEmpty()) {
+        return "No Data";
+    }
+
+    int maxQuantity = -1;
+    QString bestCoffeeName;
+
+    for (int i = 0; i < coffees.size(); ++i) {
+        const Coffee &coffee = coffees.at(i);
+        int quantity = coffee.getQuantitySold();
+
+        if (quantity > maxQuantity) {
+            maxQuantity = quantity;
+            bestCoffeeName = coffee.getName();
+        }
+    }
+
+    return bestCoffeeName;
+}
