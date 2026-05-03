@@ -33,6 +33,7 @@ protected:
 
 private slots:
     void delayedUpdateChart();
+    void onDataModified();
 
 private:
     void loadData();

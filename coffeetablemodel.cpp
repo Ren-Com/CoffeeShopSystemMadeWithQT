@@ -50,6 +50,116 @@ QVariant CoffeeTableModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
+Qt::ItemFlags CoffeeTableModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+
+    // Semua kolom bisa diedit kecuali ID (kolom 1)
+    if (index.column() == 1) {  // ID column tidak bisa diedit
+        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    }
+
+    // Kolom lain bisa diedit
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+}
+
+bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!index.isValid() || role != Qt::EditRole)
+        return false;
+
+    Coffee &coffee = coffees[index.row()];
+    bool changed = false;
+
+    switch (index.column()) {
+    case 0: // Name
+        if (!value.toString().isEmpty()) {
+            coffee.setName(value.toString());
+            changed = true;
+        }
+        break;
+
+    case 1: // ID (sebenarnya tidak diedit, tapi jika ingin diijinkan)
+        // Biarkan tetap atau beri warning
+        qDebug() << "ID cannot be edited (auto-generated)";
+        return false;
+
+    case 2: // Price
+    {
+        bool ok;
+        double newPrice = value.toDouble(&ok);
+        if (ok && newPrice >= 0 && validatePrice(newPrice)) {
+            coffee.setPrice(newPrice);
+            changed = true;
+        } else {
+            qDebug() << "Invalid price:" << value.toString();
+            return false;
+        }
+        break;
+    }
+
+    case 3: // Size
+    {
+        QString newSize = value.toString().toUpper();
+        // Validasi size: harus S, M, atau L
+        if (newSize == "S" || newSize == "M" || newSize == "L") {
+            coffee.setSize(newSize);
+            changed = true;
+        } else {
+            qDebug() << "Invalid size. Must be S, M, or L";
+            return false;
+        }
+        break;
+    }
+
+    case 4: // Quantity Sold
+    {
+        bool ok;
+        int newQuantity = value.toInt(&ok);
+        if (ok && newQuantity >= 0 && validateQuantity(newQuantity)) {
+            coffee.setQuantitySold(newQuantity);
+            changed = true;
+        } else {
+            qDebug() << "Invalid quantity:" << value.toString();
+            return false;
+        }
+        break;
+    }
+
+    case 5: // Explanation
+        if (!value.toString().isEmpty()) {
+            coffee.setExplanation(value.toString());
+            changed = true;
+        }
+        break;
+
+    default:
+        return false;
+    }
+
+    if (changed) {
+        emit dataChanged(index, index);
+        // Optional: emit signal bahwa data berubah
+        emit dataModified();
+        return true;
+    }
+
+    return false;
+}
+
+// Method validasi (opsional)
+bool CoffeeTableModel::validatePrice(double price) const
+{
+    return price >= 0 && price <= 100; // Maksimal harga 1000
+}
+
+bool CoffeeTableModel::validateQuantity(int quantity) const
+{
+    return quantity >= 0; // Maksimal quantity 10000
+}
+
+
 void CoffeeTableModel::loadDataFromCSV(const QString &filePath)
 {
     beginResetModel();

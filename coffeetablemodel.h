@@ -22,11 +22,21 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+    bool validatePrice(double price) const;
+    bool validateQuantity(int quantity) const;
+
+
     // Custom methods
     void loadDataFromCSV(const QString &filePath);
     void clear();
     int getRowCount() const;
     double calculateTotalRevenue() const;
+
+signals:
+    void dataModified();
 };
 
 #endif // COFFEETABLEMODEL_H

@@ -8,6 +8,7 @@
 #include <QFile>
 #include <algorithm>
 #include <QtCharts/QHorizontalBarSeries>  // Tambahkan ini
+#include <QDir>
 
 // Include Charts
 #include <QtCharts/QChartView>
@@ -43,6 +44,8 @@ Dialog2::Dialog2(QWidget *parent) :
 
     // Update chart setelah window ditampilkan
     QTimer::singleShot(100, this, &Dialog2::delayedUpdateChart);
+
+    connect(coffeeModel, &CoffeeTableModel::dataModified, this, &Dialog2::onDataModified);
 }
 
 Dialog2::~Dialog2()
@@ -57,6 +60,13 @@ Dialog2::~Dialog2()
         chartView = nullptr;
     }
     delete ui;
+}
+
+void Dialog2::onDataModified()
+{
+    qDebug() << "=== Data Modified - Updating revenue and chart ===";
+    updateTotalRevenue();
+    updateChart();
 }
 
 void Dialog2::delayedUpdateChart()
@@ -94,7 +104,7 @@ void Dialog2::showEvent(QShowEvent *event)
 
 void Dialog2::loadData()
 {
-    QString filePath = "/home/ren-e/Desktop/project/CoffeeShopSystemMadeWithQT/database/dataSet.csv";
+    QString filePath = "../../database/dataSet.csv"; //-------------> Buat jadi relatif [Important!!!!!] Done
 
     qDebug() << "Loading data from:" << filePath;
 
@@ -189,19 +199,16 @@ void Dialog2::updateChart()
     }
 
     series->append(barSet);
-    // Matikan labels jika tidak ingin angka di bar
-    // series->setLabelsVisible(true);
-    // series->setLabelsFormat("%.0f");
 
     currentChart->addSeries(series);
 
-    // Sumbu Y untuk kategori (nama menu)
+    //Y untuk kategori (nama menu)
     QBarCategoryAxis *axisY = new QBarCategoryAxis();
     axisY->append(categories);
     axisY->setTitleText("Coffee Menu");
     axisY->setLabelsFont(QFont("Arial", 9));
 
-    // Sumbu X untuk nilai revenue
+    //X untuk nilai revenue
     QValueAxis *axisX = new QValueAxis();
     double maxRevenue = items.last().second;  // items.last() karena ascending
     axisX->setRange(0, maxRevenue * 1.2);
