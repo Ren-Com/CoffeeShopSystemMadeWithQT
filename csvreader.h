@@ -9,7 +9,6 @@ class CSVReader
 {
 private:
     QString fileName;
-
     QStringList parseCSVLine(const QString &line) const;
 
 public:
@@ -21,4 +20,4 @@ public:
     bool fileExists() const;
 };
 
-#endif // CSVREADER_H
+#endif

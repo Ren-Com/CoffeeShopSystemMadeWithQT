@@ -16,6 +16,7 @@ qt_add_executable(CoffeeShopSystemMadeWithQT
     coffee.h coffee.cpp
     csvreader.h csvreader.cpp
     coffeetablemodel.h coffeetablemodel.cpp
+    additem.h additem.cpp additem.ui
 )
 
 target_link_libraries(CoffeeShopSystemMadeWithQT

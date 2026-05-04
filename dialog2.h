@@ -1,18 +1,18 @@
 #ifndef DIALOG2_H
 #define DIALOG2_H
-
+#include <QObject>
 #include <QDialog>
 #include <QVector>
 #include <QTimer>
 
-// Forward declaration
+//Forward declaration
 class CoffeeTableModel;
 
 namespace Ui {
 class Dialog2;
 }
 
-// Forward declaration untuk Qt Charts classes
+// Forward declaration untuk QtCharts classes
 QT_BEGIN_NAMESPACE
 class QChartView;
 class QChart;

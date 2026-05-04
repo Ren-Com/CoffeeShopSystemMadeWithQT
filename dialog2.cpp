@@ -54,7 +54,7 @@ Dialog2::Dialog2(QWidget *parent) :
 
 Dialog2::~Dialog2()
 {
-    // Bersihkan dengan aman
+    // Bersihin data lama, ga tau tapi katanya perlu
     if (currentChart) {
         currentChart->deleteLater();
         currentChart = nullptr;

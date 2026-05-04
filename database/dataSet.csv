@@ -1,22 +1,51 @@
 name,id,price,size,quantity_sold,explanation
-Espresso,1,18.50,S,53,"Pure coffee brewed under high pressure, small and concentrated shot."
-Double Espresso (Doppio),2,22.00,S,142,Two shots of espresso in one cup.
-Ristretto,3,16.00,S,87,"A shorter, more concentrated espresso shot that is sweeter and bolder."
-Lungo,4,20.50,S,213,"An espresso shot extracted with more water, resulting in a longer drink."
-Americano,5,15.00,M,176,"Espresso diluted with hot water, similar to drip coffee but lighter."
-Caffe Latte,6,28.00,M,98,Espresso with steamed milk and a thin layer of foam; milk-heavy.
-Cappuccino,7,28.00,M,245,"Balanced composition of espresso, steamed milk, and thick foam."
-Flat White,8,32.00,M,119,"Similar to a latte but with a thinner, velvety microfoam."
-Macchiato (Espresso Macchiato),9,19.00,S,268,Espresso stained with a small amount of milk foam.
-Latte Macchiato,10,30.00,M,134,Steamed milk stained with espresso.
-Mocha,11,35.00,M,187,A latte with chocolate powder or syrup added.
-Affogato,12,30.00,S,62,A scoop of vanilla ice cream drowned with a hot shot of espresso.
-Cortado,13,26.00,S,229,"Espresso balanced with an equal amount of warm milk (1:1 ratio), popular in Spain."
-Irish Coffee,14,45.00,L,153,"Black coffee with Irish whiskey, sugar, and topped with whipped cream."
-Vienna Coffee,15,29.00,M,271,Black coffee topped with whipped cream.
-Tubruk (Indonesian-style coffee),16,18.00,M,96,Coarse coffee grounds brewed directly with hot water; the grounds are left in the cup.
-Vietnamese Coffee,17,25.00,M,208,Robusta coffee drip-brewed (using a phin) over sweetened condensed milk.
-Dalgona Coffee,18,22.00,M,114,"Instant coffee, sugar, and hot water whipped into a thick foam, served over milk."
-Frappe,19,35.00,L,300,"Instant coffee shaken vigorously with ice, milk, and sugar until frothy."
-Cold Brew,20,38.00,L,183,"Coffee steeped in cold water for 12–24 hours, resulting in a smooth, low-acid flavor."
-Matcha,21,15.00,L,56,A sweet and mild green tea from Japan
+Espresso,1,18.5,S,53,Pure coffee brewed under high pressure, small and concentrated shot.
+Double Espresso (Doppio),2,22,S,142,Two shots of espresso in one cup.
+Ristretto,3,16,S,87,A shorter, more concentrated espresso shot that is sweeter and bolder.
+Lungo,4,20.5,S,213,An espresso shot extracted with more water, resulting in a longer drink.
+Americano,5,15,M,176,Espresso diluted with hot water, similar to drip coffee but lighter.
+Caffe Latte,6,28,M,98,Espresso with steamed milk and a thin layer of foam, milk-heavy.
+Cappuccino,7,28,M,245,Balanced composition of espresso, steamed milk, and thick foam.
+Flat White,8,32,M,119,Similar to a latte but with a thinner, velvety microfoam.
+Macchiato (Espresso Macchiato),9,19,S,268,Espresso stained with a small amount of milk foam.
+Latte Macchiato,10,30,M,134,Steamed milk stained with espresso.
+Mocha,11,35,M,187,A latte with chocolate powder or syrup added.
+Affogato,12,30,S,62,A scoop of vanilla ice cream drowned with a hot shot of espresso.
+Cortado,13,26,S,229,Espresso balanced with an equal amount of warm milk (1:1 ratio), popular in Spain.
+Irish Coffee,14,45,L,153,Black coffee with Irish whiskey, sugar, and topped with whipped cream.
+Vienna Coffee,15,29,M,271,Black coffee topped with whipped cream.
+Tubruk (Indonesian-style coffee),16,18,M,96,Coarse coffee grounds brewed directly with hot water; the grounds are left in the cup.
+Vietnamese Coffee,17,25,M,208,Robusta coffee drip-brewed (using a phin) over sweetened condensed milk.
+Dalgona Coffee,18,22,M,114,Instant coffee, sugar, and hot water whipped into a thick foam, served over milk.
+Frappe,19,35,L,300,Instant coffee shaken vigorously with ice, milk, and sugar until frothy.
+Cold Brew,20,38,L,183,Coffee steeped in cold water for 12–24 hours, resulting in a smooth, low-acid flavor.
+Nitro Cold Brew,21,45,L,97,Cold brew infused with nitrogen gas, served draft with a creamy, stout-like texture.
+Caramel Macchiato,22,38,M,212,Vanilla syrup with steamed milk, topped with foam, espresso, and caramel drizzle.
+Hazelnut Latte,23,36,M,144,Classic latte with hazelnut syrup, often topped with foam.
+Pumpkin Spice Latte,24,42,M,89,Seasonal latte with pumpkin, cinnamon, nutmeg, and cloves.
+Toasted White Chocolate Mocha,25,44,M,76,White chocolate mocha with a toasted marshmallow-like flavor.
+Coconut Latte,26,35,M,108,Latte made with coconut milk instead of dairy.
+Oat Milk Cappuccino,27,38,M,132,Cappuccino using oat milk, popular for its creamy texture.
+Soy Latte,28,36,M,95,Latte with soy milk, slightly nutty flavor.
+Matcha Coffee Fusion,29,40,M,57,Matcha green tea powder mixed with a shot of espresso and steamed milk.
+Red Eye,30,25,L,128,Drip coffee with a shot of espresso added for extra caffeine.
+Black Eye,31,30,L,92,Drip coffee with two shots of espresso.
+Lazy Eye,32,28,L,67,Drip coffee with a decaf espresso shot.
+Espresso Romano,33,20,S,81,Espresso served with a twist of lemon peel.
+Espresso Con Panna,34,23,S,159,Espresso topped with whipped cream.
+Marocchino,35,27,S,113,Espresso with a dusting of cocoa powder, steamed milk, and milk foam.
+Galao,36,24,M,77,Portuguese hot coffee drink similar to a latte with twice the foam.
+Torrefacto,37,19,S,46,Spanish coffee where beans are roasted with sugar, creating a distinct bitter-sweet taste.
+Kopi Kayu (Wood Coffee),38,21,M,84,Indonesian coffee brewed with real cinnamon sticks and cloves.
+Kopi Joss,39,12,S,312,Javanese coffee where hot charcoal is dropped directly into the coffee to reduce acidity.
+Kopi Gula Aren,40,23,M,197,Coffee sweetened with palm sugar (arenga), often served with coconut milk.
+Butter Coffee (Bulletproof),41,35,M,61,Coffee blended with unsalted butter and MCT oil for an energy boost.
+Egg Coffee (Vietnamese),42,34,M,73,Egg yolk whipped with condensed milk into a creamy topping over robusta coffee.
+Spanish Latte,43,31,M,146,Latte made with condensed milk instead of regular milk.
+Cafe Bombon,44,29,S,105,Equal parts espresso and sweetened condensed milk, served in a glass.
+Kopi Timorese,45,21,M,88,Coffee with ginger, palm sugar, and sometimes a pinch of salt.
+Bicerin,46,40,S,52,Turin's traditional layered drink: espresso, drinking chocolate, and whole milk.
+Kopi Kothok,47,14,M,121,Javanese boiled coffee with sugar, often with grounds settled at the bottom.
+Kopi Jahe (Ginger Coffee),48,20,M,163,Black coffee infused with fresh ginger and palm sugar.
+Desert Coffee (Spiced),49,27,M,112,Coffee with cardamom, cloves, cinnamon, and sometimes saffron.
+Cafe de Olla,50,26,M,94,Mexican spiced coffee with cinnamon, piloncillo (unrefined sugar), and orange peel.
