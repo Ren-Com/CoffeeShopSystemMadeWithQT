@@ -7,17 +7,15 @@
 #include <QVBoxLayout>
 #include <QFile>
 #include <algorithm>
-#include <QtCharts/QHorizontalBarSeries>  // Tambahkan ini
+#include <QtCharts/QHorizontalBarSeries>
 #include <QDir>
 #include <QMessageBox>
-
-// Include Charts
 #include <QtCharts/QChartView>
 #include <QtCharts/QChart>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarSet>
 #include <QtCharts/QBarCategoryAxis>
-#include <QtCharts/QValueAxis>
+#include <QtCharts/QValueAxis> //include nya banyak bet
 
 Dialog2::Dialog2(QWidget *parent) :
     QDialog(parent),
@@ -97,7 +95,7 @@ void Dialog2::setupChart()
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->setMinimumSize(400, 350);
 
-    // Buat layout baru
+    // Buat layout baru 0_o
     QVBoxLayout *layout = new QVBoxLayout(ui->chartWidget);
     layout->addWidget(chartView);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -172,7 +170,7 @@ void Dialog2::updateChart()
         currentChart = nullptr;
     }
 
-    // Kumpulkan data revenue
+    // Kumpulkan data ravenue
     QVector<QPair<QString, double>> items;
 
     for (int i = 0; i < coffeeModel->getRowCount(); i++) {
@@ -191,13 +189,12 @@ void Dialog2::updateChart()
         return;
     }
 
-    // ========== URUTKAN DARI TERKECIL KE TERBESAR ==========
-    // Agar yang terbesar muncul di bagian atas horizontal chart
+    // urut dari kecil ke besar
     std::sort(items.begin(), items.end(), [](const QPair<QString, double> &a, const QPair<QString, double> &b) {
         return a.second < b.second;  // Ascending (kecil ke besar)
     });
 
-    // Ambil top 8 (8 terbesar akan berada di akhir array)
+    // ngambil 8 terbawah --> yang bawah yang besar, salah logic diawal but its okay
     const int maxItems = 8;
     if (items.size() > maxItems) {
         items = items.mid(items.size() - maxItems);
@@ -256,7 +253,6 @@ void Dialog2::on_addButton_clicked()
     additem -> show();
 }
 
-// Tambahkan fungsi ini di dialog2.cpp
 void Dialog2::on_deletButton_clicked()
 {
     // Dapatkan selection model dari table view
@@ -269,7 +265,6 @@ void Dialog2::on_deletButton_clicked()
         return;
     }
 
-    // Dapatkan baris yang dipilih
     QModelIndexList selectedRows = selectionModel->selectedRows();
     if (selectedRows.isEmpty()) {
         QMessageBox::warning(this, "No Selection",

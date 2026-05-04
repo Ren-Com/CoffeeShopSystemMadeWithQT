@@ -12,14 +12,14 @@ addItem::addItem(QWidget *parent, CoffeeTableModel *model)
 {
     ui->setupUi(this);
 
-    // Set validator untuk price dan quantity sold (hanya angka)
+    //validator untuk price dan quantity sold (hanya angka)
     ui->price_lineEdit->setValidator(new QDoubleValidator(0, 999999, 2, this));
     ui->quantitySold_lineEdit->setValidator(new QIntValidator(0, 999999, this));
 
-    // Hubungkan sinyal stateChanged dari setiap checkbox ke slot yang sama
+    // Hubungkan stateChanged dari setiap checkbox ke slot yang sama
     connect(ui->S_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged);
-    connect(ui->M_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged);
-    connect(ui->L_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged);
+    connect(ui->M_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged); //--->biarin aja warningnya, yang penting gak eror
+    connect(ui->L_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged); // bingung mau diperbaiki
 }
 
 addItem::~addItem()
@@ -38,7 +38,6 @@ void addItem::onSizeCheckboxChanged()
 
     // Jika lebih dari 1 dicentang, uncheck yang baru saja dicentang
     if (checkedCount > 1) {
-        // Cari checkbox yang baru saja dicentang (yang mengirim sinyal)
         QCheckBox *senderBox = qobject_cast<QCheckBox*>(sender());
         if (senderBox) {
             senderBox->setChecked(false);
@@ -103,7 +102,7 @@ void addItem::on_saveToCSVButton_clicked()
         return;
     }
 
-    // Cek apakah memilih lebih dari satu ukuran
+    // Cek memilih lebih dari satu ukuran
     if (selectedCount > 1) {
         QMessageBox::warning(this, "Validation Error",
                              "You can only select ONE size!\n"
@@ -111,7 +110,7 @@ void addItem::on_saveToCSVButton_clicked()
         return;
     }
 
-    // Cek field wajib lainnya
+    // Cek field wajib
     if (itemName.isEmpty()) {
         QMessageBox::warning(this, "Validation Error", "Please enter item name!");
         return;
@@ -142,7 +141,7 @@ void addItem::on_saveToCSVButton_clicked()
         return;
     }
 
-    // 2. Dapatkan ID baru
+    // 2. Bikin ID baru
     int newId = getNextId();
 
     // 3. Tambahkan data ke model
@@ -153,7 +152,6 @@ void addItem::on_saveToCSVButton_clicked()
         // Tambahkan ke model
         coffeeModel->addCoffee(newCoffee);
 
-        // Simpan ke CSV
         if (coffeeModel->saveToCSV()) {
             QMessageBox::information(this, "Success",
                                      QString("Item added successfully!\n"
@@ -168,7 +166,7 @@ void addItem::on_saveToCSVButton_clicked()
                                          .arg(selectedSize)
                                          .arg(quantity));
 
-            // Clear form untuk input berikutnya
+            // Clear form
             ui->itemName_lineEdit->clear();
             ui->price_lineEdit->clear();
             ui->quantitySold_lineEdit->clear();
@@ -177,7 +175,7 @@ void addItem::on_saveToCSVButton_clicked()
             ui->M_checkBox->setChecked(false);
             ui->L_checkBox->setChecked(false);
 
-            // Optional: tutup dialog setelah sukses (uncomment jika ingin)
+            // tutup dialog setelah sukses (uncomment)!!! simpen aja dlu
             // accept();
         } else {
             QMessageBox::critical(this, "Error", "Failed to save data to CSV file!");

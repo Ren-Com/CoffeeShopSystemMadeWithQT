@@ -58,7 +58,7 @@ Qt::ItemFlags CoffeeTableModel::flags(const QModelIndex &index) const
         return Qt::NoItemFlags;
 
     // Semua kolom bisa diedit kecuali ID (kolom 1)
-    if (index.column() == 1) {  // ID column tidak bisa diedit
+    if (index.column() == 1) {
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     }
 
@@ -82,9 +82,8 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
         }
         break;
 
-    case 1: // ID (sebenarnya tidak diedit, tapi jika ingin diijinkan)
-        // Biarkan tetap atau beri warning
-        qDebug() << "ID cannot be edited (auto-generated)";
+    case 1:
+        qDebug() << "ID cannot be edited";
         return false;
 
     case 2: // Price
@@ -104,7 +103,7 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
     case 3: // Size
     {
         QString newSize = value.toString().toUpper();
-        // Validasi size: harus S, M, atau L
+        //harus S, M, atau L
         if (newSize == "S" || newSize == "M" || newSize == "L") {
             coffee.setSize(newSize);
             changed = true;
@@ -142,7 +141,6 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
 
     if (changed) {
         emit dataChanged(index, index);
-        // Optional: emit signal bahwa data berubah
         emit dataModified();
         return true;
     }
@@ -150,15 +148,15 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
     return false;
 }
 
-// Method validasi (opsional)
+// Method validasi
 bool CoffeeTableModel::validatePrice(double price) const
 {
-    return price >= 0 && price <= 100; // Maksimal harga 1000
+    return price >= 0 && price <= 100; // Maksimal harga 100
 }
 
 bool CoffeeTableModel::validateQuantity(int quantity) const
 {
-    return quantity >= 0; // Maksimal quantity 10000
+    return quantity >= 0;
 }
 
 static QString escapeCSV(const QString &field)
@@ -257,8 +255,7 @@ double CoffeeTableModel::calculateTotalRevenue() const
 {
     double totalRevenue = 0.0;
 
-    // Perbaiki range-loop untuk menghindari warning
-    for (int i = 0; i < coffees.size(); ++i) {
+    for (int i = 0; i < coffees.size(); ++i) {  //---> kena warning jirr
         const Coffee &coffee = coffees.at(i);
         totalRevenue += coffee.getPrice() * coffee.getQuantitySold();
     }

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "dialog2.h"
+#include "signup.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,13 +19,18 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private slots:
     void on_loginBtn_clicked();
-
-    void on_label_5_windowIconChanged(const QIcon &icon);
+    void onSignUpLabelClicked();
 
 private:
     Ui::MainWindow *ui;
     Dialog2 * dialog2;
+    SignUp * signUp;
+
+    bool validateLogin(const QString &username, const QString &password);
 };
 #endif // MAINWINDOW_H
