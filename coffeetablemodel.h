@@ -38,6 +38,9 @@ public:
     double calculateTotalRevenue() const;
     QString getBestSellingCoffeeName() const;
 
+    void addCoffee(const Coffee &coffee);
+    bool removeRow(int row);
+
 signals:
     void dataModified();
 };

@@ -21,6 +21,8 @@ public:
 private slots:
     void on_loginBtn_clicked();
 
+    void on_label_5_windowIconChanged(const QIcon &icon);
+
 private:
     Ui::MainWindow *ui;
     Dialog2 * dialog2;

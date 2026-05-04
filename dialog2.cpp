@@ -250,3 +250,68 @@ void Dialog2::updateChart()
 
     qDebug() << "=== Horizontal chart update completed successfully ===";
 }
+void Dialog2::on_addButton_clicked()
+{
+    additem = new addItem(this, coffeeModel);
+    additem -> show();
+}
+
+// Tambahkan fungsi ini di dialog2.cpp
+void Dialog2::on_deletButton_clicked()
+{
+    // Dapatkan selection model dari table view
+    QItemSelectionModel *selectionModel = ui->tableView->selectionModel();
+
+    // Cek apakah ada baris yang dipilih
+    if (!selectionModel->hasSelection()) {
+        QMessageBox::warning(this, "No Selection",
+                             "Please select an item to delete!");
+        return;
+    }
+
+    // Dapatkan baris yang dipilih
+    QModelIndexList selectedRows = selectionModel->selectedRows();
+    if (selectedRows.isEmpty()) {
+        QMessageBox::warning(this, "No Selection",
+                             "Please select a row to delete!");
+        return;
+    }
+
+    int row = selectedRows.first().row();
+
+    // Dapatkan nama item untuk ditampilkan di konfirmasi
+    QString itemName = coffeeModel->data(coffeeModel->index(row, 0)).toString();
+    int itemId = coffeeModel->data(coffeeModel->index(row, 1)).toInt();
+
+    // Konfirmasi penghapusan
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirm Delete",
+                                  QString("Are you sure you want to delete:\n"
+                                          "ID: %1\n"
+                                          "Name: %2\n\n"
+                                          "This action cannot be undone!")
+                                      .arg(itemId).arg(itemName),
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        // Hapus baris dari model
+        if (coffeeModel->removeRow(row)) {
+            // Simpan perubahan ke CSV
+            if (coffeeModel->saveToCSV()) {
+                QMessageBox::information(this, "Success",
+                                         "Item deleted successfully!");
+
+                // Update tampilan lainnya
+                updateTotalRevenue();
+                updateChart();
+                updateBestSellingCoffee();
+            } else {
+                QMessageBox::critical(this, "Error",
+                                      "Failed to save changes to CSV file!");
+            }
+        } else {
+            QMessageBox::critical(this, "Error",
+                                  "Failed to delete the item!");
+        }
+    }
+}

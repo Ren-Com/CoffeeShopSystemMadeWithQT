@@ -287,3 +287,27 @@ QString CoffeeTableModel::getBestSellingCoffeeName() const
 
     return bestCoffeeName;
 }
+
+void CoffeeTableModel::addCoffee(const Coffee &coffee)
+{
+    beginInsertRows(QModelIndex(), coffees.size(), coffees.size());
+    coffees.append(coffee);
+    endInsertRows();
+
+    emit dataModified();
+}
+
+bool CoffeeTableModel::removeRow(int row)
+{
+    if (row < 0 || row >= coffees.size()) {
+        qDebug() << "Invalid row index:" << row;
+        return false;
+    }
+
+    beginRemoveRows(QModelIndex(), row, row);
+    coffees.removeAt(row);
+    endRemoveRows();
+
+    emit dataModified();
+    return true;
+}

@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QVector>
 #include <QTimer>
+#include "additem.h"
 
 //Forward declaration
 class CoffeeTableModel;
@@ -34,6 +35,8 @@ protected:
 private slots:
     void delayedUpdateChart();
     void onDataModified();
+    void on_deletButton_clicked();
+    void on_addButton_clicked();
 
 private:
     void loadData();
@@ -46,6 +49,7 @@ private:
     CoffeeTableModel *coffeeModel;
     QChartView *chartView;
     QChart *currentChart;  // Simpan chart reference
+    addItem * additem;
 };
 
 #endif // DIALOG2_H
