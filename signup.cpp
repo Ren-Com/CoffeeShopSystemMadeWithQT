@@ -48,11 +48,6 @@ bool SignUp::loadAccountsFromFile(QVector<QPair<QString, QString>> &accounts)
     // Path ke file account.txt
     QString filePath = "../../database/account.txt";
 
-    // Alternatif path jika tidak ditemukan
-    if (!QFile::exists(filePath)) {
-        filePath = "/home/ren-e/Desktop/project/CoffeeShopSystemMadeWithQT/database/account.txt";
-    }
-
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         // File belum ada, itu OK
@@ -93,21 +88,6 @@ bool SignUp::saveAccountToFile(const QString &username, const QString &hashedPas
 {
     // Path ke file account.txt
     QString filePath = "../../database/account.txt";
-
-    // Buat direktori jika belum ada
-    QDir dir("../../database");
-    if (!dir.exists()) {
-        dir.mkpath(".");
-    }
-
-    // Alternatif absolute path
-    if (!QFile::exists(filePath)) {
-        filePath = "/home/ren-e/Desktop/project/CoffeeShopSystemMadeWithQT/database/account.txt";
-        QDir absDir("/home/ren-e/Desktop/project/CoffeeShopSystemMadeWithQT/database");
-        if (!absDir.exists()) {
-            absDir.mkpath(".");
-        }
-    }
 
     QFile file(filePath);
 
