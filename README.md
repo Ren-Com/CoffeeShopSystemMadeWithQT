@@ -2,7 +2,7 @@
 
 A desktop application built with **Qt6 (C++)** for managing coffee shop sales, inventory, and user authentication.
 
-## 📋 Table of Contents
+##  Table of Contents
 - [Overview](#overview)
 - [Features](#features)
 - [System Architecture](#system-architecture)
@@ -14,7 +14,7 @@ A desktop application built with **Qt6 (C++)** for managing coffee shop sales, i
 - [Technical Details](#technical-details)
 - [Future Improvements](#future-improvements)
 
-## 🎯 Overview
+##  Overview
 
 The **Coffee Shop Sales System** is a comprehensive management tool that allows administrators to:
 - Manage coffee menu items (add, edit, delete)
@@ -24,7 +24,7 @@ The **Coffee Shop Sales System** is a comprehensive management tool that allows 
 
 This project was developed as part of a C++ programming course assignment.
 
-## ✨ Features
+##  Features
 
 ### Authentication System
 - **Login** with username/password (SHA-256 hashed)
@@ -45,25 +45,25 @@ This project was developed as part of a C++ programming course assignment.
 - **Best Selling Coffee** – Identifies item with highest quantity sold
 - **Revenue Chart** – Horizontal bar chart showing top 8 coffee items by revenue
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    MainWindow (Login)                   │
 │                      │         │                        │
-│            ┌─────────┘         └─────────┐             │
-│            ▼                             ▼             │
-│         SignUp                         Dialog2         │
-│    (Account Creation)              (Admin Dashboard)   │
-│                                          │             │
-│                              ┌───────────┼───────────┐ │
-│                              ▼           ▼           ▼ │
-│                         addItem    CoffeeTableModel   │
-│                        (Add Form)   (Data Model)     │
-│                                          │             │
-│                                          ▼             │
-│                                     CSVReader         │
-│                                    (File I/O)         │
+│            ┌─────────┘         └─────────┐              │
+│            ▼                                               ▼              │
+│         SignUp                         Dialog2          │
+│    (Account Creation)              (Admin Dashboard)    │
+│                                          │              │
+│                              ┌───────────┼───────────┐  │
+│                              ▼                  ▼                 ▼  │
+│                         addItem    CoffeeTableModel     │
+│                        (Add Form)   (Data Model)        │
+│                                          │              │
+│                                          ▼              │
+│                                     CSVReader           │
+│                                    (File I/O)           │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -80,7 +80,7 @@ This project was developed as part of a C++ programming course assignment.
 | `CSVReader` | CSV parsing utility |
 | `HashUtils` | SHA-256 password hashing |
 
-## 📦 Prerequisites
+##  Prerequisites
 
 - **Qt6 Framework** (6.5 or later)
 - **CMake** (3.19 or later)
@@ -92,7 +92,7 @@ sudo apt update
 sudo apt install qt6-base-dev qt6-charts-dev cmake build-essential
 ```
 
-## 🔧 Installation & Build
+##  Installation & Build
 
 1. **Clone the repository**
 ```bash
@@ -121,7 +121,7 @@ make -j$(nproc)
 ./CoffeeShopSystemMadeWithQT
 ```
 
-## 📁 File Structure
+##  File Structure
 
 ```
 CoffeeShopSystemMadeWithQT/
@@ -145,7 +145,7 @@ CoffeeShopSystemMadeWithQT/
 └── README.md                   # This file
 ```
 
-## 💾 Data Storage
+## Data Storage
 
 ### Coffee Data (`database/dataSet.csv`)
 CSV format with columns:
@@ -162,7 +162,7 @@ username,hashed_password_sha256
 admin,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
 ```
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### First Time Setup
 1. Launch the application
@@ -196,7 +196,7 @@ admin,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
 - **Best Selling Coffee** – Shows item with highest quantity sold
 - **Revenue Chart** – Horizontal bar chart of top 8 items by revenue
 
-## 🔧 Technical Details
+## Technical Details
 
 ### Password Security
 - Passwords are hashed using **SHA-256** (`QCryptographicHash`)
@@ -221,7 +221,7 @@ admin,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
 | Size | Exactly one of S, M, L |
 | Username | Not empty, unique |
 
-## 🚀 Future Improvements
+## Future Improvements
 
 - [ ] **Edit functionality** in Add Item dialog
 - [ ] **Search/filter** coffee items
@@ -233,7 +233,7 @@ admin,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
 - [ ] **Multi-language** support
 - [ ] **Date-based** sales filtering
 
-## 👨‍💻 Author
+## Author
 
 **Alfath Rafiuddin**  
 *C++ Programming Course Project*
