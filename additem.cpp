@@ -12,14 +12,13 @@ addItem::addItem(QWidget *parent, CoffeeTableModel *model)
 {
     ui->setupUi(this);
 
-    //validator untuk price dan quantity sold (hanya angka)
+    //validator untuk price sama quantity sold
     ui->price_lineEdit->setValidator(new QDoubleValidator(0, 999999, 2, this));
     ui->quantitySold_lineEdit->setValidator(new QIntValidator(0, 999999, this));
 
-    // Hubungkan stateChanged dari setiap checkbox ke slot yang sama
     connect(ui->S_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged);
-    connect(ui->M_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged); //--->biarin aja warningnya, yang penting gak eror
-    connect(ui->L_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged); // bingung mau diperbaiki
+    connect(ui->M_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged);
+    connect(ui->L_checkBox, &QCheckBox::stateChanged, this, &addItem::onSizeCheckboxChanged);
 }
 
 addItem::~addItem()
@@ -27,16 +26,14 @@ addItem::~addItem()
     delete ui;
 }
 
-// Slot untuk menangani perubahan checkbox ukuran
 void addItem::onSizeCheckboxChanged()
 {
-    // Hitung berapa checkbox yang sedang dicentang
     int checkedCount = 0;
     if (ui->S_checkBox->isChecked()) checkedCount++;
     if (ui->M_checkBox->isChecked()) checkedCount++;
     if (ui->L_checkBox->isChecked()) checkedCount++;
 
-    // Jika lebih dari 1 dicentang, uncheck yang baru saja dicentang
+    // uncheck yang baru si user dicentang
     if (checkedCount > 1) {
         QCheckBox *senderBox = qobject_cast<QCheckBox*>(sender());
         if (senderBox) {
@@ -60,7 +57,7 @@ int addItem::getNextId()
     int rowCount = coffeeModel->getRowCount();
 
     for (int i = 0; i < rowCount; i++) {
-        QModelIndex index = coffeeModel->index(i, 1); // Kolom ID adalah kolom 1
+        QModelIndex index = coffeeModel->index(i, 1); // Kolom ID nya kolom 1
         int currentId = coffeeModel->data(index).toInt();
         if (currentId > maxId) {
             maxId = currentId;
@@ -78,7 +75,7 @@ void addItem::on_saveToCSVButton_clicked()
     QString quantityText = ui->quantitySold_lineEdit->text().trimmed();
     QString explanation = ui->explanation_lineEdit->text().trimmed();
 
-    // Validasi size checkboxes - PASTIKAN HANYA SATU YANG DIPILIH
+    // Validasi size checkboxes
     QString selectedSize;
     int selectedCount = 0;
 
@@ -95,22 +92,20 @@ void addItem::on_saveToCSVButton_clicked()
         selectedCount++;
     }
 
-    // Cek apakah tidak ada ukuran yang dipilih
+    // tidak ada ukuran yang dipilih
     if (selectedCount == 0) {
         QMessageBox::warning(this, "Validation Error",
                              "Please select a size (S/M/L)!");
         return;
     }
 
-    // Cek memilih lebih dari satu ukuran
+    // kondisi kalau usr milih lebih dari satu ukuran
     if (selectedCount > 1) {
-        QMessageBox::warning(this, "Validation Error",
-                             "You can only select ONE size!\n"
-                             "Please select only S, M, or L, not multiple sizes.");
+        QMessageBox::warning(this, "Validati0n Error", "You can only select ONE size!\n""Please select only S, M, or L, not multiple sizes.");
         return;
     }
 
-    // Cek field wajib
+    // ngecek kotak yang wajib diisi
     if (itemName.isEmpty()) {
         QMessageBox::warning(this, "Validation Error", "Please enter item name!");
         return;
@@ -126,7 +121,7 @@ void addItem::on_saveToCSVButton_clicked()
         return;
     }
 
-    // Validasi nilai
+    // validasi nilainya
     bool priceOk, quantityOk;
     double price = priceText.toDouble(&priceOk);
     int quantity = quantityText.toInt(&quantityOk);
@@ -141,15 +136,12 @@ void addItem::on_saveToCSVButton_clicked()
         return;
     }
 
-    // 2. Bikin ID baru
+    // 2. bikin ID baru
     int newId = getNextId();
 
-    // 3. Tambahkan data ke model
+    // 3. masukin data ke model
     if (coffeeModel) {
-        // Buat coffee object baru
         Coffee newCoffee(itemName, newId, price, selectedSize, quantity, explanation);
-
-        // Tambahkan ke model
         coffeeModel->addCoffee(newCoffee);
 
         if (coffeeModel->saveToCSV()) {
@@ -166,7 +158,7 @@ void addItem::on_saveToCSVButton_clicked()
                                          .arg(selectedSize)
                                          .arg(quantity));
 
-            // Clear form
+            // clear form
             ui->itemName_lineEdit->clear();
             ui->price_lineEdit->clear();
             ui->quantitySold_lineEdit->clear();
@@ -175,8 +167,6 @@ void addItem::on_saveToCSVButton_clicked()
             ui->M_checkBox->setChecked(false);
             ui->L_checkBox->setChecked(false);
 
-            // tutup dialog setelah sukses (uncomment)!!! simpen aja dlu
-            // accept();
         } else {
             QMessageBox::critical(this, "Error", "Failed to save data to CSV file!");
         }

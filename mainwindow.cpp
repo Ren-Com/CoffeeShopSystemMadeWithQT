@@ -28,7 +28,7 @@ MainWindow::~MainWindow()
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    // Deteksi klik pada signUpLabel
+    // ngedetect klik di tulisan signup
     if (watched == ui->signUpLabel && event->type() == QEvent::MouseButtonPress) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
         if (mouseEvent->button() == Qt::LeftButton) {
@@ -49,7 +49,6 @@ bool MainWindow::validateLogin(const QString &username, const QString &password)
         return false;
     }
 
-    // Hash password
     QString hashedInputPassword = HashUtils::sha256(password);
 
     QTextStream in(&file);

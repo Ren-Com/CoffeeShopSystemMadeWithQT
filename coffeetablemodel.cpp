@@ -57,12 +57,9 @@ Qt::ItemFlags CoffeeTableModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
-    // Semua kolom bisa diedit kecuali ID (kolom 1)
     if (index.column() == 1) {
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     }
-
-    // Kolom lain bisa diedit
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
@@ -148,7 +145,7 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
     return false;
 }
 
-// Method validasi
+// Method validasiiiii
 bool CoffeeTableModel::validatePrice(double price) const
 {
     return price >= 0 && price <= 100; // Maksimal harga 100
@@ -169,7 +166,6 @@ static QString escapeCSV(const QString &field)
     return field;
 }
 
-// Implementasi saveToCSV
 bool CoffeeTableModel::saveToCSV()
 {
     if (currentFilePath.isEmpty()) {
@@ -189,7 +185,6 @@ bool CoffeeTableModel::saveToCSV()
     // Tulis header
     out << "name,id,price,size,quantity_sold,explanation\n";
 
-    // Tulis semua data coffee yang sudah diedit
     for (const Coffee &coffee : coffees) {
         out << escapeCSV(coffee.getName()) << ","
             << coffee.getId() << ","

@@ -22,8 +22,8 @@ private slots:
 
 private:
     Ui::addItem *ui;
-    CoffeeTableModel *coffeeModel;  // Reference ke model utama
-    int getNextId();  // Method untuk mendapatkan ID berikutnya
+    CoffeeTableModel *coffeeModel;
+    int getNextId();
 };
 
 #endif // ADDITEM_H

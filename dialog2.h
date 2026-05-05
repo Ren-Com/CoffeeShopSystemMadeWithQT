@@ -6,14 +6,12 @@
 #include <QTimer>
 #include "additem.h"
 
-//Forward declaration
 class CoffeeTableModel;
 
 namespace Ui {
 class Dialog2;
 }
 
-// Forward declaration untuk QtCharts classes
 QT_BEGIN_NAMESPACE
 class QChartView;
 class QChart;
@@ -48,7 +46,7 @@ private:
     Ui::Dialog2 *ui;
     CoffeeTableModel *coffeeModel;
     QChartView *chartView;
-    QChart *currentChart;  // Simpan chart reference
+    QChart *currentChart;
     addItem * additem;
 };
 

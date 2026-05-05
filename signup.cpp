@@ -15,13 +15,12 @@ SignUp::SignUp(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Setup loginLabel menjadi clickable
+    // tulisan login bisa dipencet
     if (ui->loginLabel) {
         ui->loginLabel->installEventFilter(this);
         ui->loginLabel->setCursor(Qt::PointingHandCursor);
     }
 
-    // Connect sign up button
     connect(ui->signUpButton, &QPushButton::clicked, this, &SignUp::onSignUpButtonClicked);
 }
 
@@ -32,7 +31,7 @@ SignUp::~SignUp()
 
 bool SignUp::eventFilter(QObject *watched, QEvent *event)
 {
-    // Deteksi klik pada loginLabel
+    // nyaritau login dipencet apa enggaa
     if (watched == ui->loginLabel && event->type() == QEvent::MouseButtonPress) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
         if (mouseEvent->button() == Qt::LeftButton) {
@@ -45,12 +44,10 @@ bool SignUp::eventFilter(QObject *watched, QEvent *event)
 
 bool SignUp::loadAccountsFromFile(QVector<QPair<QString, QString>> &accounts)
 {
-    // Path ke file account.txt
     QString filePath = "../../database/account.txt";
 
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        // File belum ada, itu OK
         qDebug() << "Account file not found, will create new one";
         return true;
     }
@@ -60,7 +57,6 @@ bool SignUp::loadAccountsFromFile(QVector<QPair<QString, QString>> &accounts)
         QString line = in.readLine();
         if (line.trimmed().isEmpty()) continue;
 
-        // Format: username,hashed_password
         QStringList parts = line.split(',');
         if (parts.size() >= 2) {
             accounts.append({parts[0].trimmed(), parts[1].trimmed()});
@@ -86,19 +82,16 @@ bool SignUp::isUsernameExists(const QString &username)
 
 bool SignUp::saveAccountToFile(const QString &username, const QString &hashedPassword)
 {
-    // Path ke file account.txt
     QString filePath = "../../database/account.txt";
 
     QFile file(filePath);
 
-    // Buka file dalam mode append
     if (!file.open(QIODevice::Append | QIODevice::Text)) {
         qDebug() << "Failed to open account file for writing:" << filePath;
         return false;
     }
 
     QTextStream out(&file);
-    // Format: username,hashed_password
     out << username << "," << hashedPassword << "\n";
 
     file.close();
@@ -128,23 +121,21 @@ void SignUp::onSignUpButtonClicked()
         return;
     }
 
-    // Cek apakah username sudah ada
+    // ngeck username ada atau enggaa
     if (isUsernameExists(username)) {
         QMessageBox::warning(this, "Validation Error",
                              "Username already exists!\nPlease choose another username.");
         return;
     }
 
-    // Hash password dengan SHA-256
     QString hashedPassword = HashUtils::sha256(password1);
     qDebug() << "Hashed password for" << username << ":" << hashedPassword;
 
-    // Simpan ke file account.txt
+    // nyimpen username sm passwordnya
     if (saveAccountToFile(username, hashedPassword)) {
         QMessageBox::information(this, "Success",
                                  "Account created successfully!\nPlease login with your new account.");
 
-        // Tutup SignUp dan buka MainWindow
         this->close();
         MainWindow *mainWindow = new MainWindow();
         mainWindow->show();
@@ -156,7 +147,6 @@ void SignUp::onSignUpButtonClicked()
 
 void SignUp::onLoginLabelClicked()
 {
-    // Tutup SignUp dan buka MainWindow
     this->close();
     MainWindow *mainWindow = new MainWindow();
     mainWindow->show();

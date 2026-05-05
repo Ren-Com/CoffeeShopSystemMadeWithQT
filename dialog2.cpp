@@ -29,15 +29,14 @@ Dialog2::Dialog2(QWidget *parent) :
     coffeeModel = new CoffeeTableModel(this);
     ui->tableView->setModel(coffeeModel);
 
-    // Atur tampilan tabel
+    // ngatur tampilan tabel
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableView->setAlternatingRowColors(true);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-    // Setup chart
     setupChart();
 
-    // edit triggers
+    // edit triggernya ini
     ui->tableView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
 
     // Load data
@@ -52,7 +51,7 @@ Dialog2::Dialog2(QWidget *parent) :
 
 Dialog2::~Dialog2()
 {
-    // Bersihin data lama, ga tau tapi katanya perlu
+    // bersihin data lama
     if (currentChart) {
         currentChart->deleteLater();
         currentChart = nullptr;
@@ -84,7 +83,6 @@ void Dialog2::delayedUpdateChart()
 
 void Dialog2::setupChart()
 {
-    // Bersihkan layout lama
     QLayout *oldLayout = ui->chartWidget->layout();
     if (oldLayout) {
         delete oldLayout;
@@ -95,7 +93,7 @@ void Dialog2::setupChart()
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->setMinimumSize(400, 350);
 
-    // Buat layout baru 0_o
+    // bat layout baru 0_o
     QVBoxLayout *layout = new QVBoxLayout(ui->chartWidget);
     layout->addWidget(chartView);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -164,13 +162,13 @@ void Dialog2::updateChart()
         return;
     }
 
-    // Hapus chart lama dengan aman
+    // Hapus chart lama
     if (currentChart) {
         currentChart->deleteLater();
         currentChart = nullptr;
     }
 
-    // Kumpulkan data ravenue
+    // data ravenue
     QVector<QPair<QString, double>> items;
 
     for (int i = 0; i < coffeeModel->getRowCount(); i++) {
@@ -191,7 +189,7 @@ void Dialog2::updateChart()
 
     // urut dari kecil ke besar
     std::sort(items.begin(), items.end(), [](const QPair<QString, double> &a, const QPair<QString, double> &b) {
-        return a.second < b.second;  // Ascending (kecil ke besar)
+        return a.second < b.second;
     });
 
     // ngambil 8 terbawah --> yang bawah yang besar, salah logic diawal but its okay
@@ -202,13 +200,13 @@ void Dialog2::updateChart()
 
     qDebug() << "Creating HORIZONTAL bar chart with" << items.size() << "items";
 
-    // Buat chart baru
+    // bikin chart baru
     currentChart = new QChart();
     currentChart->setTitle("Top Coffee Revenue");
     currentChart->setAnimationOptions(QChart::NoAnimation);
     currentChart->setBackgroundBrush(QBrush(Qt::white));
 
-    // Horizontal Bar Chart
+    // horizontal har
     QHorizontalBarSeries *series = new QHorizontalBarSeries();
     QBarSet *barSet = new QBarSet("Revenue (RMB)");
 
@@ -255,10 +253,10 @@ void Dialog2::on_addButton_clicked()
 
 void Dialog2::on_deletButton_clicked()
 {
-    // Dapatkan selection model dari table view
+    // selection model dari tabel
     QItemSelectionModel *selectionModel = ui->tableView->selectionModel();
 
-    // Cek apakah ada baris yang dipilih
+    // ngecek baris yang dipilih
     if (!selectionModel->hasSelection()) {
         QMessageBox::warning(this, "No Selection",
                              "Please select an item to delete!");
@@ -274,11 +272,10 @@ void Dialog2::on_deletButton_clicked()
 
     int row = selectedRows.first().row();
 
-    // Dapatkan nama item untuk ditampilkan di konfirmasi
     QString itemName = coffeeModel->data(coffeeModel->index(row, 0)).toString();
     int itemId = coffeeModel->data(coffeeModel->index(row, 1)).toInt();
 
-    // Konfirmasi penghapusan
+    // konfirmasi hapus
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Confirm Delete",
                                   QString("Are you sure you want to delete:\n"
@@ -289,14 +286,12 @@ void Dialog2::on_deletButton_clicked()
                                   QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes) {
-        // Hapus baris dari model
         if (coffeeModel->removeRow(row)) {
-            // Simpan perubahan ke CSV
             if (coffeeModel->saveToCSV()) {
                 QMessageBox::information(this, "Success",
                                          "Item deleted successfully!");
 
-                // Update tampilan lainnya
+                // update
                 updateTotalRevenue();
                 updateChart();
                 updateBestSellingCoffee();

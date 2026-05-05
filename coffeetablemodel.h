@@ -18,7 +18,6 @@ private:
 public:
     explicit CoffeeTableModel(QObject *parent = nullptr);
 
-    // Override virtual methods dari QAbstractTableModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -30,7 +29,6 @@ public:
     bool validatePrice(double price) const;
     bool validateQuantity(int quantity) const;
 
-    // Custom methods
     void loadDataFromCSV(const QString &filePath);
     bool saveToCSV();
     void clear();
