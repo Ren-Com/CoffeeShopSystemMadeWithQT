@@ -6,7 +6,7 @@
 #include <QTimer>
 #include "additem.h"
 
-class CoffeeTableModel;
+class DrinksTableModel;
 
 namespace Ui {
 class Dialog2;
@@ -39,12 +39,12 @@ private slots:
 private:
     void loadData();
     void updateTotalRevenue();
-    void updateBestSellingCoffee();
+    void updateBestSellingDrink();
     void updateChart();
     void setupChart();
 
     Ui::Dialog2 *ui;
-    CoffeeTableModel *coffeeModel;
+    DrinksTableModel *drinkModel;
     QChartView *chartView;
     QChart *currentChart;
     addItem * additem;

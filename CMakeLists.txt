@@ -13,9 +13,9 @@ qt_add_executable(CoffeeShopSystemMadeWithQT
     mainwindow.h
     mainwindow.ui
     dialog2.h dialog2.cpp dialog2.ui
-    coffee.h coffee.cpp
+    Drinks.h Drinks.cpp
     csvreader.h csvreader.cpp
-    coffeetablemodel.h coffeetablemodel.cpp
+    drinktablemodel.h drinktablemodel.cpp
     additem.h additem.cpp additem.ui
     signup.h signup.cpp signup.ui
     hashutils.h

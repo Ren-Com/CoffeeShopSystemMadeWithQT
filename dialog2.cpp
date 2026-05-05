@@ -1,6 +1,6 @@
 #include "dialog2.h"
 #include "ui_dialog2.h"
-#include "coffeetablemodel.h"
+#include "drinktablemodel.h"
 #include <QHeaderView>
 #include <QCoreApplication>
 #include <QDebug>
@@ -26,8 +26,8 @@ Dialog2::Dialog2(QWidget *parent) :
     ui->setupUi(this);
 
     // Buat model
-    coffeeModel = new CoffeeTableModel(this);
-    ui->tableView->setModel(coffeeModel);
+    drinkModel = new DrinksTableModel(this);
+    ui->tableView->setModel(drinkModel);
 
     // ngatur tampilan tabel
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -46,7 +46,7 @@ Dialog2::Dialog2(QWidget *parent) :
     // Update chart setelah window ditampilkan
     QTimer::singleShot(100, this, &Dialog2::delayedUpdateChart);
 
-    connect(coffeeModel, &CoffeeTableModel::dataModified, this, &Dialog2::onDataModified);
+    connect(drinkModel, &DrinksTableModel::dataModified, this, &Dialog2::onDataModified);
 }
 
 Dialog2::~Dialog2()
@@ -68,9 +68,9 @@ void Dialog2::onDataModified()
     qDebug() << "=== Data Modified - Updating revenue and chart ===";
     updateTotalRevenue();
     updateChart();
-    updateBestSellingCoffee();
+    updateBestSellingDrink();
 
-    if (coffeeModel->saveToCSV()) {
+    if (drinkModel->saveToCSV()) {
         qDebug() << "Changes auto-saved to CSV successfully";
     }
 }
@@ -78,7 +78,7 @@ void Dialog2::onDataModified()
 void Dialog2::delayedUpdateChart()
 {
     updateChart();
-    updateBestSellingCoffee();
+    updateBestSellingDrink();
 }
 
 void Dialog2::setupChart()
@@ -119,33 +119,33 @@ void Dialog2::loadData()
         return;
     }
 
-    coffeeModel->loadDataFromCSV(filePath);
-    qDebug() << "Loaded" << coffeeModel->getRowCount() << "coffee items";
+    drinkModel->loadDataFromCSV(filePath);
+    qDebug() << "Loaded" << drinkModel->getRowCount() << "drinks items";
 
     ui->tableView->resizeColumnsToContents();
 
-    updateBestSellingCoffee();
+    updateBestSellingDrink();
 }
 
 void Dialog2::updateTotalRevenue()
 {
-    double totalRevenue = coffeeModel->calculateTotalRevenue();
+    double totalRevenue = drinkModel->calculateTotalRevenue();
     QString formattedRevenue = QString("RMB %1").arg(totalRevenue, 0, 'f', 2);
     ui->totalSalesRavenue->setText(QString("<html><head/><body><p><span style=' font-size:24pt; font-weight:700;'>%1</span></p></body></html>").arg(formattedRevenue));
     qDebug() << "Total Revenue:" << formattedRevenue;
 }
 
-void Dialog2::updateBestSellingCoffee()
+void Dialog2::updateBestSellingDrink()
 {
-    QString bestCoffee = coffeeModel->getBestSellingCoffeeName();
+    QString bestDrink = drinkModel->getBestSellingDrinksName();
 
-    if (bestCoffee.isEmpty() || bestCoffee == "No Data") {
+    if (bestDrink.isEmpty() || bestDrink == "No Data") {
         ui->bestSellingCoffee->setText(QString("<html><head/><body><p><span style=' font-size:24pt; font-weight:700;'>No Data</span></p></body></html>"));
     } else {
-        ui->bestSellingCoffee->setText(QString("<html><head/><body><p><span style=' font-size:24pt; font-weight:700;'>%1</span></p></body></html>").arg(bestCoffee));
+        ui->bestSellingCoffee->setText(QString("<html><head/><body><p><span style=' font-size:24pt; font-weight:700;'>%1</span></p></body></html>").arg(bestDrink));
     }
 
-    qDebug() << "Best Selling Coffee:" << bestCoffee;
+    qDebug() << "Best Selling Coffee:" << bestDrink;
 }
 
 void Dialog2::updateChart()
@@ -157,7 +157,7 @@ void Dialog2::updateChart()
         return;
     }
 
-    if (coffeeModel->getRowCount() == 0) {
+    if (drinkModel->getRowCount() == 0) {
         qDebug() << "No data in model!";
         return;
     }
@@ -171,10 +171,10 @@ void Dialog2::updateChart()
     // data ravenue
     QVector<QPair<QString, double>> items;
 
-    for (int i = 0; i < coffeeModel->getRowCount(); i++) {
-        QString name = coffeeModel->data(coffeeModel->index(i, 0)).toString();
-        double price = coffeeModel->data(coffeeModel->index(i, 2)).toDouble();
-        int quantity = coffeeModel->data(coffeeModel->index(i, 4)).toInt();
+    for (int i = 0; i < drinkModel->getRowCount(); i++) {
+        QString name = drinkModel->data(drinkModel->index(i, 0)).toString();
+        double price = drinkModel->data(drinkModel->index(i, 2)).toDouble();
+        int quantity = drinkModel->data(drinkModel->index(i, 4)).toInt();
         double revenue = price * quantity;
 
         if (revenue > 0) {
@@ -247,7 +247,7 @@ void Dialog2::updateChart()
 }
 void Dialog2::on_addButton_clicked()
 {
-    additem = new addItem(this, coffeeModel);
+    additem = new addItem(this, drinkModel);
     additem -> show();
 }
 
@@ -272,8 +272,8 @@ void Dialog2::on_deletButton_clicked()
 
     int row = selectedRows.first().row();
 
-    QString itemName = coffeeModel->data(coffeeModel->index(row, 0)).toString();
-    int itemId = coffeeModel->data(coffeeModel->index(row, 1)).toInt();
+    QString itemName = drinkModel->data(drinkModel->index(row, 0)).toString();
+    int itemId = drinkModel->data(drinkModel->index(row, 1)).toInt();
 
     // konfirmasi hapus
     QMessageBox::StandardButton reply;
@@ -286,15 +286,15 @@ void Dialog2::on_deletButton_clicked()
                                   QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes) {
-        if (coffeeModel->removeRow(row)) {
-            if (coffeeModel->saveToCSV()) {
+        if (drinkModel->removeRow(row)) {
+            if (drinkModel->saveToCSV()) {
                 QMessageBox::information(this, "Success",
                                          "Item deleted successfully!");
 
                 // update
                 updateTotalRevenue();
                 updateChart();
-                updateBestSellingCoffee();
+                updateBestSellingDrink();
             } else {
                 QMessageBox::critical(this, "Error",
                                       "Failed to save changes to CSV file!");

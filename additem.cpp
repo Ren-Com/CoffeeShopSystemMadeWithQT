@@ -5,10 +5,10 @@
 #include <QDoubleValidator>
 #include <QIntValidator>
 
-addItem::addItem(QWidget *parent, CoffeeTableModel *model)
+addItem::addItem(QWidget *parent, DrinksTableModel *model)
     : QDialog(parent)
     , ui(new Ui::addItem)
-    , coffeeModel(model)
+    , drinkModel(model)
 {
     ui->setupUi(this);
 
@@ -48,17 +48,17 @@ void addItem::onSizeCheckboxChanged()
 
 int addItem::getNextId()
 {
-    if (!coffeeModel) {
+    if (!drinkModel) {
         qDebug() << "Model is null!";
         return 1;
     }
 
     int maxId = 0;
-    int rowCount = coffeeModel->getRowCount();
+    int rowCount = drinkModel->getRowCount();
 
     for (int i = 0; i < rowCount; i++) {
-        QModelIndex index = coffeeModel->index(i, 1); // Kolom ID nya kolom 1
-        int currentId = coffeeModel->data(index).toInt();
+        QModelIndex index = drinkModel->index(i, 1); // Kolom ID nya kolom 1
+        int currentId = drinkModel->data(index).toInt();
         if (currentId > maxId) {
             maxId = currentId;
         }
@@ -140,11 +140,11 @@ void addItem::on_saveToCSVButton_clicked()
     int newId = getNextId();
 
     // 3. masukin data ke model
-    if (coffeeModel) {
-        Coffee newCoffee(itemName, newId, price, selectedSize, quantity, explanation);
-        coffeeModel->addCoffee(newCoffee);
+    if (drinkModel) {
+        Drinks newDrink(itemName, newId, price, selectedSize, quantity, explanation);
+        drinkModel->addDrink(newDrink);
 
-        if (coffeeModel->saveToCSV()) {
+        if (drinkModel->saveToCSV()) {
             QMessageBox::information(this, "Success",
                                      QString("Item added successfully!\n"
                                              "ID: %1\n"

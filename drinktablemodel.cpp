@@ -1,48 +1,48 @@
-#include "coffeetablemodel.h"
+#include "drinktablemodel.h"
 #include "csvreader.h"
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
 
-CoffeeTableModel::CoffeeTableModel(QObject *parent)
+DrinksTableModel::DrinksTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
     headers = {"Name", "ID", "Price", "Size", "Quantity Sold", "Explanation"};
 }
 
-int CoffeeTableModel::rowCount(const QModelIndex &parent) const
+int DrinksTableModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return coffees.size();
+    return drinksList.size();
 }
 
-int CoffeeTableModel::columnCount(const QModelIndex &parent) const
+int DrinksTableModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
     return 6;
 }
 
-QVariant CoffeeTableModel::data(const QModelIndex &index, int role) const
+QVariant DrinksTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || role != Qt::DisplayRole)
         return QVariant();
 
-    const Coffee &coffee = coffees.at(index.row());
+    const Drinks &drink = drinksList.at(index.row());
 
     switch (index.column()) {
-    case 0: return coffee.getName();
-    case 1: return coffee.getId();
-    case 2: return QString::number(coffee.getPrice(), 'f', 2);
-    case 3: return coffee.getSize();
-    case 4: return coffee.getQuantitySold();
-    case 5: return coffee.getExplanation();
+    case 0: return drink.getName();
+    case 1: return drink.getId();
+    case 2: return QString::number(drink.getPrice(), 'f', 2);
+    case 3: return drink.getSize();
+    case 4: return drink.getQuantitySold();
+    case 5: return drink.getExplanation();
     default: return QVariant();
     }
 }
 
-QVariant CoffeeTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DrinksTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         if (section < headers.size()) {
@@ -52,7 +52,7 @@ QVariant CoffeeTableModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
-Qt::ItemFlags CoffeeTableModel::flags(const QModelIndex &index) const
+Qt::ItemFlags DrinksTableModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
@@ -63,18 +63,18 @@ Qt::ItemFlags CoffeeTableModel::flags(const QModelIndex &index) const
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool DrinksTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (!index.isValid() || role != Qt::EditRole)
         return false;
 
-    Coffee &coffee = coffees[index.row()];
+    Drinks &drink = drinksList[index.row()];
     bool changed = false;
 
     switch (index.column()) {
     case 0: // Name
         if (!value.toString().isEmpty()) {
-            coffee.setName(value.toString());
+            drink.setName(value.toString());
             changed = true;
         }
         break;
@@ -88,7 +88,7 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
         bool ok;
         double newPrice = value.toDouble(&ok);
         if (ok && newPrice >= 0 && validatePrice(newPrice)) {
-            coffee.setPrice(newPrice);
+            drink.setPrice(newPrice);
             changed = true;
         } else {
             qDebug() << "Invalid price:" << value.toString();
@@ -102,7 +102,7 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
         QString newSize = value.toString().toUpper();
         //harus S, M, atau L
         if (newSize == "S" || newSize == "M" || newSize == "L") {
-            coffee.setSize(newSize);
+            drink.setSize(newSize);
             changed = true;
         } else {
             qDebug() << "Invalid size. Must be S, M, or L";
@@ -116,7 +116,7 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
         bool ok;
         int newQuantity = value.toInt(&ok);
         if (ok && newQuantity >= 0 && validateQuantity(newQuantity)) {
-            coffee.setQuantitySold(newQuantity);
+            drink.setQuantitySold(newQuantity);
             changed = true;
         } else {
             qDebug() << "Invalid quantity:" << value.toString();
@@ -127,7 +127,7 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
 
     case 5: // Explanation
         if (!value.toString().isEmpty()) {
-            coffee.setExplanation(value.toString());
+            drink.setExplanation(value.toString());
             changed = true;
         }
         break;
@@ -146,12 +146,12 @@ bool CoffeeTableModel::setData(const QModelIndex &index, const QVariant &value, 
 }
 
 // Method validasiiiii
-bool CoffeeTableModel::validatePrice(double price) const
+bool DrinksTableModel::validatePrice(double price) const
 {
     return price >= 0 && price <= 100; // Maksimal harga 100
 }
 
-bool CoffeeTableModel::validateQuantity(int quantity) const
+bool DrinksTableModel::validateQuantity(int quantity) const
 {
     return quantity >= 0;
 }
@@ -166,7 +166,7 @@ static QString escapeCSV(const QString &field)
     return field;
 }
 
-bool CoffeeTableModel::saveToCSV()
+bool DrinksTableModel::saveToCSV()
 {
     if (currentFilePath.isEmpty()) {
         qDebug() << "Error: No file path specified!";
@@ -185,13 +185,13 @@ bool CoffeeTableModel::saveToCSV()
     // Tulis header
     out << "name,id,price,size,quantity_sold,explanation\n";
 
-    for (const Coffee &coffee : coffees) {
-        out << escapeCSV(coffee.getName()) << ","
-            << coffee.getId() << ","
-            << QString::number(coffee.getPrice(), 'f', 2) << ","
-            << coffee.getSize() << ","
-            << coffee.getQuantitySold() << ","
-            << escapeCSV(coffee.getExplanation()) << "\n";
+    for (const Drinks &drink : drinksList) {
+        out << escapeCSV(drink.getName()) << ","
+            << drink.getId() << ","
+            << QString::number(drink.getPrice(), 'f', 2) << ","
+            << drink.getSize() << ","
+            << drink.getQuantitySold() << ","
+            << escapeCSV(drink.getExplanation()) << "\n";
     }
 
     file.close();
@@ -199,10 +199,10 @@ bool CoffeeTableModel::saveToCSV()
     return true;
 }
 
-void CoffeeTableModel::loadDataFromCSV(const QString &filePath)
+void DrinksTableModel::loadDataFromCSV(const QString &filePath)
 {
     beginResetModel();
-    coffees.clear();
+    drinksList.clear();
     currentFilePath = filePath;
 
     CSVReader reader(filePath);
@@ -217,7 +217,7 @@ void CoffeeTableModel::loadDataFromCSV(const QString &filePath)
 
     for (const QStringList &row : data) {
         if (row.size() >= 6) {
-            Coffee coffee(
+            Drinks drink(
                 row[0],                          // name
                 row[1].toInt(),                  // id
                 row[2].toDouble(),               // price
@@ -225,79 +225,79 @@ void CoffeeTableModel::loadDataFromCSV(const QString &filePath)
                 row[4].toInt(),                  // quantitySold
                 row[5]                           // explanation
                 );
-            coffees.append(coffee);
+            drinksList.append(drink);
         }
     }
 
     endResetModel();
-    qDebug() << "Loaded" << coffees.size() << "coffee items";
+    qDebug() << "Loaded" << drinksList.size() << "drink items";
 }
 
 
-void CoffeeTableModel::clear()
+void DrinksTableModel::clear()
 {
     beginResetModel();
-    coffees.clear();
+    drinksList.clear();
     endResetModel();
 }
 
-int CoffeeTableModel::getRowCount() const
+int DrinksTableModel::getRowCount() const
 {
-    return coffees.size();
+    return drinksList.size();
 }
 
-double CoffeeTableModel::calculateTotalRevenue() const
+double DrinksTableModel::calculateTotalRevenue() const
 {
     double totalRevenue = 0.0;
 
-    for (int i = 0; i < coffees.size(); ++i) {  //---> kena warning jirr
-        const Coffee &coffee = coffees.at(i);
-        totalRevenue += coffee.getPrice() * coffee.getQuantitySold();
+    for (int i = 0; i < drinksList.size(); ++i) {  //---> kena warning jirr
+        const Drinks &drink = drinksList.at(i);
+        totalRevenue += drink.getPrice() * drink.getQuantitySold();
     }
 
     return totalRevenue;
 }
 
-QString CoffeeTableModel::getBestSellingCoffeeName() const
+QString DrinksTableModel::getBestSellingDrinksName() const
 {
-    if (coffees.isEmpty()) {
+    if (drinksList.isEmpty()) {
         return "No Data";
     }
 
     int maxQuantity = -1;
     QString bestCoffeeName;
 
-    for (int i = 0; i < coffees.size(); ++i) {
-        const Coffee &coffee = coffees.at(i);
-        int quantity = coffee.getQuantitySold();
+    for (int i = 0; i < drinksList.size(); ++i) {
+        const Drinks &drink = drinksList.at(i);
+        int quantity = drink.getQuantitySold();
 
         if (quantity > maxQuantity) {
             maxQuantity = quantity;
-            bestCoffeeName = coffee.getName();
+            bestCoffeeName = drink.getName();
         }
     }
 
     return bestCoffeeName;
 }
 
-void CoffeeTableModel::addCoffee(const Coffee &coffee)
+void DrinksTableModel::addDrink(const Drinks &drink)
 {
-    beginInsertRows(QModelIndex(), coffees.size(), coffees.size());
-    coffees.append(coffee);
+    beginInsertRows(QModelIndex(), drinksList.size(), drinksList.size());
+    drinksList.append(drink);
     endInsertRows();
 
     emit dataModified();
 }
 
-bool CoffeeTableModel::removeRow(int row)
+bool DrinksTableModel::removeRow(int row)
 {
-    if (row < 0 || row >= coffees.size()) {
+    if (row < 0 || row >= drinksList.size()) {
         qDebug() << "Invalid row index:" << row;
         return false;
     }
 
     beginRemoveRows(QModelIndex(), row, row);
-    coffees.removeAt(row);
+    drinksList.removeAt(row);
     endRemoveRows();
 
     emit dataModified();

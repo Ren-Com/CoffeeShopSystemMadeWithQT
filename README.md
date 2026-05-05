@@ -17,7 +17,7 @@ A desktop application built with **Qt6 (C++)** for managing coffee shop sales, i
 ##  Overview
 
 The **Coffee Shop Sales System** is a comprehensive management tool that allows administrators to:
-- Manage coffee menu items (add, edit, delete)
+- Manage drinks menu items (add, edit, delete)
 - Track sales revenue
 - Visualize sales data with charts
 - Authenticate users with secure password hashing
@@ -27,7 +27,7 @@ This project was developed as part of a C++ programming course assignment.
 ##  Features
 
 ### Authentication System
-- **Login** with username/password (SHA-256 hashed)
+- **Login** with username/password (SHA-256 hashed without salt for simplicity)
 - **Sign Up** for new admin accounts
 - Persistent account storage in CSV format
 
@@ -74,7 +74,7 @@ This project was developed as part of a C++ programming course assignment.
 | `MainWindow` | Login interface, account validation |
 | `SignUp` | New account registration |
 | `Dialog2` | Admin dashboard, CRUD operations, analytics |
-| `addItem` | Form for adding new coffee items |
+| `addItem` | Form for adding new items |
 | `CoffeeTableModel` | Qt table model, CSV persistence, revenue calculations |
 | `Coffee` | Data structure for coffee items |
 | `CSVReader` | CSV parsing utility |
@@ -166,7 +166,7 @@ admin,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
 
 ### First Time Setup
 1. Launch the application
-2. Click **"Sign up"** to create an admin account
+2. Click **"Sign up"** to create an account
 3. Log in with your new credentials
 
 ### Managing Coffee Items
@@ -221,21 +221,9 @@ admin,8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
 | Size | Exactly one of S, M, L |
 | Username | Not empty, unique |
 
-## Future Improvements
-
-- [ ] **Edit functionality** in Add Item dialog
-- [ ] **Search/filter** coffee items
-- [ ] **Export reports** to PDF/Excel
-- [ ] **User roles** (admin, cashier, viewer)
-- [ ] **Sales transaction logging**
-- [ ] **Backup/restore** database
-- [ ] **Dark mode** theme
-- [ ] **Multi-language** support
-- [ ] **Date-based** sales filtering
-
 ## Author
 
-**Alfath Rafiuddin**  
+**Alfath Rafiuddin**
 *C++ Programming Course Project*
 
 ---

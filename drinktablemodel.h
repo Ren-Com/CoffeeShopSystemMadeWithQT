@@ -1,22 +1,22 @@
-#ifndef COFFEETABLEMODEL_H
-#define COFFEETABLEMODEL_H
+#ifndef DRINKTABLEMODEL_H
+#define DRINKTABLEMODEL_H
 
 #include <QAbstractTableModel>
 #include <QVector>
-#include "coffee.h"
+#include "Drinks.h"
 
-class CoffeeTableModel : public QAbstractTableModel
+class DrinksTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 private:
-    QVector<Coffee> coffees;
+    QVector<Drinks> drinksList;
     QStringList headers;
     QString currentFilePath;
     bool isEditableColumn(int column) const;
 
 public:
-    explicit CoffeeTableModel(QObject *parent = nullptr);
+    explicit DrinksTableModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -34,13 +34,13 @@ public:
     void clear();
     int getRowCount() const;
     double calculateTotalRevenue() const;
-    QString getBestSellingCoffeeName() const;
+    QString getBestSellingDrinksName() const;
 
-    void addCoffee(const Coffee &coffee);
+    void addDrink(const Drinks &drink);
     bool removeRow(int row);
 
 signals:
     void dataModified();
 };
 
-#endif // COFFEETABLEMODEL_H
+#endif // DRINKTABLEMODEL_H

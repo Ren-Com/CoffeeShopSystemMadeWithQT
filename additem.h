@@ -2,7 +2,7 @@
 #define ADDITEM_H
 
 #include <QDialog>
-#include "coffeetablemodel.h"
+#include "drinktablemodel.h"
 
 namespace Ui {
 class addItem;
@@ -13,7 +13,7 @@ class addItem : public QDialog
     Q_OBJECT
 
 public:
-    explicit addItem(QWidget *parent = nullptr, CoffeeTableModel *model = nullptr);
+    explicit addItem(QWidget *parent = nullptr, DrinksTableModel *model = nullptr);
     ~addItem();
 
 private slots:
@@ -22,7 +22,7 @@ private slots:
 
 private:
     Ui::addItem *ui;
-    CoffeeTableModel *coffeeModel;
+    DrinksTableModel *drinkModel;
     int getNextId();
 };
 

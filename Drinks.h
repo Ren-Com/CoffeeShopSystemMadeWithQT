@@ -1,9 +1,9 @@
-#ifndef COFFEE_H
-#define COFFEE_H
+#ifndef DRINKS_H
+#define DRINKS_H
 
 #include <QString>
 
-class Coffee
+class Drinks
 {
 private:
     QString name;
@@ -14,8 +14,8 @@ private:
     QString explanation;
 
 public:
-    Coffee();
-    Coffee(QString name, int id, double price, QString size, int quantitySold, QString explanation);
+    Drinks();
+    Drinks(QString name, int id, double price, QString size, int quantitySold, QString explanation);
 
     // ini getter nya
     QString getName() const;
@@ -34,4 +34,4 @@ public:
     void setExplanation(const QString &explanation);
 };
 
-#endif // COFFEE_H
+#endif // DRINKS_H
